@@ -6,8 +6,8 @@ NOTE: The $ symbol means that the text that follows must be executed in terminal
 03. $ git clone https://github.com/Frankninetytwo/L2CS-Net.git
 04. $ cd L2CS-Net
 05. $ pip install git+https://github.com/edavalosanaya/L2CS-Net.git@main
-06. Now we need to fix an error in an installed package. In order to do this we need to run one of my scripts first. Adjust the path in command below with a path to a video.
-$ python3 ExtractFeatures.py --video path/to/a/video/videoname.fileextention
+06. Now we need to fix an error in an installed package. In order to do this we need to run one of my scripts first. Adjust the path in command below with a path to a video.<br>
+$ python3 ExtractFeatures.py --video path/to/a/video/videoname.fileextention<br>
 When executing this, it should tell you that 'date_modified' is not defined. In the error output it will also show the path of the package where the error comes from (the name of that file is utils.py). Edit this file (e.g. with nano: $ nano path/to/file/utils.py) as follows: delete the part " or date_modified()".
 
 Now let's do the feature extraction (conda environment L2CS-Net still needs to be active!).
