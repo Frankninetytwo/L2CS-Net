@@ -1,4 +1,3 @@
-# L2CS-Net
 NOTE: The $ symbol means that the text that follows must be executed in terminal. All other instructions without a $ you need to do manually (e.g. downloading some stuff and putting it into some folder).
 
 01. $ conda create -n L2CS-Net python=3.9
