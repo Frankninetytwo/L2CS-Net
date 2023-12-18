@@ -10,10 +10,11 @@ import cv2
 import torch
 
 from l2cs import select_device, Pipeline, render
+import math
 
 def parse_args():
 
-    parser = argparse.ArgumentParser(description='Gaze evalution using model pretrained on Gaze360 dataset.')
+    parser = argparse.ArgumentParser(description='Gaze estimation using model pretrained on Gaze360 dataset.')
     
     parser.add_argument(
         '--video',
@@ -36,16 +37,17 @@ def parse_args():
 # where filename_of_video_without_file_extension is a parameter of this function.
 def write_estimated_gaze_to_file(filename_of_video_without_file_extension, timestamp_by_frame, pitch_by_frame, yaw_by_frame):
 
-    output_path = str(str(pathlib.Path.cwd())) + '/Output/' + filename_of_video_without_file_extension + '.csv'
+    output_path = str(pathlib.Path.cwd()) + '/Output/' + filename_of_video_without_file_extension + '.csv'
     
     with open(output_path, 'w') as f:
         
-        f.write('frame,timestamp in s,yaw in radians,pitch in radians\n')
+        f.write('frame,timestamp in s,success,yaw in radians,pitch in radians\n')
 
         for i in range(0, len(pitch_by_frame)):
-            f.write('{},{},{},{}\n'.format(
+            f.write('{},{},{},{},{}\n'.format(
                 i+1,
                 str(round(timestamp_by_frame[i], 3)), # +/- 0.001 radians (less 0.1 degrees) can be rounded off (easier to compare output file to output from OpenFace)
+                0 if math.isnan(yaw_by_frame[i]) else 1,
                 str(round(yaw_by_frame[i], 3)),
                 str(round(pitch_by_frame[i], 3)))
                 )
@@ -116,11 +118,18 @@ if __name__ == '__main__':
             current_timestamp = round((current_frame-1) * (1.0 / video_capture.get(cv2.CAP_PROP_FPS)), 3)
             timestamp_by_frame.append(current_timestamp)
             
-            # 1. Insert current yaw into pitch list and vice versa, because L2CS-Net for some reason
-            # confuses the two.
-            # 2. Adjust to output format of OpenFace by negating pitch and yaw.
-            pitch_by_frame.append(-results.yaw[0])
-            yaw_by_frame.append(-results.pitch[0])
+
+
+            if len(results.yaw) > 1:
+                # If there is more than one person in the frame I don't know whose gaze to use
+                pitch_by_frame.append(math.nan)
+                yaw_by_frame.append(math.nan)
+            else:
+                # 1. Insert current yaw into pitch list and vice versa, because L2CS-Net for some reason
+                # confuses the two.
+                # 2. Adjust to output format of OpenFace by negating pitch and yaw.
+                pitch_by_frame.append(-results.yaw[0])
+                yaw_by_frame.append(-results.pitch[0])
 
 
             if args.v:

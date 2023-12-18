@@ -14,4 +14,7 @@ In the command below adjust the path to where you have all SIT videos (ONLY vide
 $ python3 ExtractFeaturesFromMultipleVideos.py --videos /path/to/folder/that/contains/all/SIT_videos<br>
 It should generate .csv files in the L2CS-Net/Output folder. While it runs it will first tell you which video is currently analyzed and then how many frames of that video were already processed.
 If you want that my script generates videos that show the estimated gaze with an arrow, then you need to add -v to the parameters:<br>
-$ python3 ExtractFeaturesFromMultipleVideos.py --videos /path/to/folder/that/contains/all/SIT_videos -v<br>
+$ python3 ExtractFeaturesFromMultipleVideos.py --videos /path/to/folder/that/contains/all/SIT_videos -v
+
+Regarding the output format (.csv files):
+For the purpose of my Bachelor's Thesis I can't consider more than one gaze per frame as it is unclear which gaze belongs to the person of interest. For this reason the column "success" is only 1 if exactly one person is detected in the corresponding frame, otherwise it is 0.
