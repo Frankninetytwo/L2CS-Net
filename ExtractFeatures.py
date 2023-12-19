@@ -57,7 +57,7 @@ if __name__ == '__main__':
     
     args = parse_args()
 
-    if (not args.video_path):
+    if not args.video_path:
         print('argument --video required')
         exit()
 
