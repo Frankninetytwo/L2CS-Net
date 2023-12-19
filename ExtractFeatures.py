@@ -117,10 +117,21 @@ if __name__ == '__main__':
             # (see /OpenFace/lib/local/Utilities/src/SequenceCapture.cpp, line 457)
             current_timestamp = round((current_frame-1) * (1.0 / video_capture.get(cv2.CAP_PROP_FPS)), 3)
             timestamp_by_frame.append(current_timestamp)
-            
 
+            if results is None:
+                # I adjusted the pipeline.py in l2cs package manually to return None if no faces detected.
+                # Before this line:
+                # pitch, yaw = self.predict_gaze(np.stack(face_imgs))
+                # I inserted these two lines:
+                # if len(face_imgs) == 0:
+                #    return None
+                # Only when this was done can this block of code right here even be reached.
+                # If this is not done, then L2CS-Net will crash when no face is detected in a frame,
+                # e.g. if the person cleans the camera or maybe if he stands up shortly or something like that.
 
-            if len(results.yaw) > 1:
+                pitch_by_frame.append(math.nan)
+                yaw_by_frame.append(math.nan)
+            elif len(results.yaw) > 1:
                 # If there is more than one person in the frame I don't know whose gaze to use
                 pitch_by_frame.append(math.nan)
                 yaw_by_frame.append(math.nan)
@@ -132,7 +143,7 @@ if __name__ == '__main__':
                 yaw_by_frame.append(-results.pitch[0])
 
 
-            if args.v:
+            if args.v and (results is not None):
                 # visualize output
                 frame = render(frame, results)
                 video_writer.write(frame)
