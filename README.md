@@ -10,11 +10,9 @@ $ python3 ExtractFeatures.py --video path/to/a/video/videoname.fileextention<br>
 When executing this, it should tell you that 'date_modified' is not defined. In the error output it will also show the path of the package where the error comes from (the name of that file is utils.py). Edit this file (e.g. with nano: $ nano path/to/file/utils.py) as follows: delete the part " or date_modified()".
 
 Now let's do the **feature extraction** (conda environment L2CS-Net still needs to be active!).<br>
-In the command below adjust the path to where you have all SIT videos (ONLY videos must be in that folder):<br>
-$ python3 ExtractFeaturesFromMultipleVideos.py --videos /path/to/folder/that/contains/all/SIT_videos<br>
-It should generate .csv files in the L2CS-Net/Output folder. While it runs it will first tell you which video is currently analyzed and then how many frames of that video were already processed.
-If you want that my script generates videos that show the estimated gaze with an arrow, then you need to add -v to the parameters:<br>
-$ python3 ExtractFeaturesFromMultipleVideos.py --videos /path/to/folder/that/contains/all/SIT_videos -v
+Open ExtractFeaturesFromSITVideos.py from main folder (/L2CS-Net) and fill the empty list named "paths_of_SIT_videos". Then save the script and do:<br>
+$ python3 ExtractFeaturesFromSITVideos.py<br>
+It should generate .csv files in the L2CS-Net/Output folder.
 
 Regarding the **output format** (.csv files):<br>
 For the purpose of my Bachelor's Thesis I can't consider more than one gaze per frame as it is unclear which gaze belongs to the person of interest. For this reason the column "success" is only 1 if exactly one person is detected in the corresponding frame, otherwise it is 0.
