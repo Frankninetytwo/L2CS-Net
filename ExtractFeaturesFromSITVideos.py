@@ -17,4 +17,4 @@ if __name__ == '__main__':
 
     for video_path in paths_of_SIT_videos:
         print("\nanalyzing video \"{}\"".format(video_path))
-        os.system("python3 ExtractFeatures.py --video {}".format(video_path))
+        os.system("python3 ExtractFeatures.py --video {} --timestamp-to-start-at {}".format(video_path, 1.5))

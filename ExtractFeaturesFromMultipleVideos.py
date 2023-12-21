@@ -42,4 +42,4 @@ if __name__ == '__main__':
 
     for filename in filenames:
         print("analyzing file \"{}\"".format(filename))
-        os.system("python3 ExtractFeatures.py --video {}{}".format(args.videos_path + '/' + filename, " -v" if args.v else ""))
+        os.system("python3 ExtractFeatures.py --video {} --timestamp-to-start-at {}{}".format(args.videos_path + '/' + filename, 1.5, " -v" if args.v else ""))
