@@ -119,7 +119,7 @@ if __name__ == '__main__':
             #timestamp_by_frame.append(video_capture.get(cv2.CAP_PROP_POS_MSEC))
             # ... So instead I'm going to estimate the timestamp like OpenFace does it
             # (see /OpenFace/lib/local/Utilities/src/SequenceCapture.cpp, line 457)
-            current_timestamp = round((current_frame-1) * (1.0 / video_capture.get(cv2.CAP_PROP_FPS)), 3)
+            current_timestamp = round(float(current_frame-1) * (1.0 / video_capture.get(cv2.CAP_PROP_FPS)), 3)
 
             if current_timestamp >= args.timestamp_to_start_at:
 
